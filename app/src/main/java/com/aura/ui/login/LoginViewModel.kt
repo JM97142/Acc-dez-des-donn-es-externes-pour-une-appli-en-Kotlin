@@ -13,7 +13,7 @@ class LoginViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    fun form(id: String, password: String) {
+    fun verifyForm(id: String, password: String) {
         _isFormCorrect.value = id.isNotEmpty() && password.isNotEmpty()
     }
 }

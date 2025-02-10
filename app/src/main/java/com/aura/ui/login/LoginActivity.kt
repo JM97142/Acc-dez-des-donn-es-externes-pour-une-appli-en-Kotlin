@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
     observeForm()
     observeLoading()
+    formState()
 
     binding.login.setOnClickListener {
 
