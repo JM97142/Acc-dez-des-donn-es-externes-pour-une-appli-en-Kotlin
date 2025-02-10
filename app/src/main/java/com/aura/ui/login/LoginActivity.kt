@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
     observeLoading()
 
     binding.login.setOnClickListener {
-      binding.loading.visibility = View.VISIBLE
 
       val intent = Intent(this@LoginActivity, HomeActivity::class.java)
       startActivity(intent)
@@ -53,5 +52,10 @@ class LoginActivity : AppCompatActivity() {
         binding.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
       }
     }
+  }
+
+  private fun formState() {
+    val id = binding.identifier.text.toString()
+    val password = binding.password.text.toString()
   }
 }
