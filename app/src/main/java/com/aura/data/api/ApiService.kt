@@ -6,8 +6,13 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-
-    // User connection
+    /**
+     *User connection
+     */
     @POST("login")
     suspend fun login(@Body loginModelRequest: LoginModelRequest): LoginModelResponse
+
+    /**
+     *
+     */
 }

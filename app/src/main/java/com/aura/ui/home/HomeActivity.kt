@@ -1,5 +1,6 @@
 package com.aura.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -28,7 +29,12 @@ class HomeActivity : AppCompatActivity()
    */
   private val startTransferActivityForResult =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-      //TODO
+      if (result.resultCode == Activity.RESULT_OK) {
+        val updatedBalance = result.data?.getStringExtra("updatedBalance")
+        updatedBalance?.let {
+          binding.balance.text = it
+        }
+      }
     }
 
   override fun onCreate(savedInstanceState: Bundle?)
