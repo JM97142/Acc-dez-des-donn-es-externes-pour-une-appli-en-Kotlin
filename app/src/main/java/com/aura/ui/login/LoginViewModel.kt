@@ -10,12 +10,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
-
-    // StateFlow to enable or disable login button
+    /**
+     * StateFlow to enable or disable login button
+     */
     private val _isFormCorrect = MutableStateFlow(false)
     val isFormCorrect: StateFlow<Boolean> get() = _isFormCorrect
 
-    // StateFlow manage loading state
+    /**
+     * StateFlow manage loading state
+     */
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
@@ -23,12 +26,16 @@ class LoginViewModel : ViewModel() {
     private val _isAccessGranted = MutableStateFlow<String?>(null)
     val isAccessGranted: StateFlow<String?> get() = _isAccessGranted
 
-    // Verify form state
+    /**
+     * Verify form state
+     */
     fun verifyForm(identifier: String, password: String) {
         _isFormCorrect.value = identifier.isNotEmpty() && password.isNotEmpty()
     }
 
-    // API Call
+    /**
+     * API Call
+     */
     suspend fun login(id: String, password: String) {
         _isLoading.value = true
         try {
@@ -40,16 +47,17 @@ class LoginViewModel : ViewModel() {
 
             _isLoading.value = true
 
+            // Navigation if successful
             if (result.accessGranted) {
-                _isAccessGranted.value = id
+                _isAccessGranted.value = id //
             }
             else {
                 throw Exception("Fail to login: $result")
             }
         }
-        catch (e: Exception) {
+        catch (error: Exception) {
             _isLoading.value = false
-            throw e
+            throw error
         }
     }
 }

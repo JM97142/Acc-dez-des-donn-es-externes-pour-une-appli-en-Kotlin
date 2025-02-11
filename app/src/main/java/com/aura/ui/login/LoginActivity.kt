@@ -29,9 +29,9 @@ class LoginActivity : AppCompatActivity() {
 
     observeForm()
     observeLoading()
+    observeAccess()
     formState()
     buttonLogin()
-    observeAccess()
   }
 
   private fun observeForm() {
