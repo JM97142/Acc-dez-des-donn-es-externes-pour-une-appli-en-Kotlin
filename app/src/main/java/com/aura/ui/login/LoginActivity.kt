@@ -2,6 +2,8 @@ package com.aura.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -30,8 +32,11 @@ class LoginActivity : AppCompatActivity() {
     observeForm()
     observeLoading()
     observeAccess()
-    formState()
-    buttonLogin()
+    formWatchers()
+
+    binding.login.setOnClickListener{
+      buttonLogin()
+    }
   }
 
   private fun observeForm() {
@@ -50,11 +55,36 @@ class LoginActivity : AppCompatActivity() {
     }
   }
 
+  private fun observeAccess() {
+    lifecycleScope.launch {
+      viewModel.isAccessGranted.collect { id ->
+        id?.let {
+          accessGranted(it)
+        }
+      }
+    }
+  }
+
   private fun formState() {
     val id = binding.identifier.text.toString()
     val password = binding.password.text.toString()
 
     viewModel.verifyForm(id, password)
+  }
+
+  private fun formWatchers() {
+    val textWatcher = object : TextWatcher {
+      override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+      override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        formState()
+      }
+
+      override fun afterTextChanged(s: Editable?) {}
+    }
+
+    binding.identifier.addTextChangedListener(textWatcher)
+    binding.password.addTextChangedListener(textWatcher)
   }
 
   private fun userLogin(id: String, password: String) {
@@ -77,19 +107,9 @@ class LoginActivity : AppCompatActivity() {
 
   private fun accessGranted(id: String) {
     val intent = Intent(this, HomeActivity::class.java)
-    intent.putExtra("user", id)
+    intent.putExtra("currentUser", id)
     startActivity(intent)
 
     finish()
-  }
-
-  private fun observeAccess() {
-    lifecycleScope.launch {
-      viewModel.isAccessGranted.collect { id ->
-        id?.let {
-          accessGranted(it)
-        }
-      }
-    }
   }
 }

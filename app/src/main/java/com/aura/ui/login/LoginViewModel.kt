@@ -36,27 +36,28 @@ class LoginViewModel : ViewModel() {
     /**
      * API Call
      */
-    suspend fun login(id: String, password: String) {
+    suspend fun login(identifier: String, password: String) {
         _isLoading.value = true
         try {
-            val loginRequest = LoginModelRequest(id, password)
+            val loginRequest = LoginModelRequest(identifier, password)
             val networkModule = NetworkModule.provideRetrofit().create(ApiService::class.java)
             val result = withContext(Dispatchers.IO) {
                 networkModule.login(loginRequest)
             }
+            _isLoading.value = false
 
-            _isLoading.value = true
 
             // Navigation if successful
-            if (result.accessGranted) {
-                _isAccessGranted.value = id //
+            if (result.granted) {
+                _isAccessGranted.value = identifier //
             }
             else {
-                throw Exception("Fail to login: $result")
+                throw Exception("$result")
             }
         }
         catch (error: Exception) {
             _isLoading.value = false
+            println(error)
             throw error
         }
     }
