@@ -22,7 +22,9 @@ class LoginViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    //StateFlow to notify if login is successful
+    /**
+     * StateFlow to notify if login is successful
+     */
     private val _isAccessGranted = MutableStateFlow<String?>(null)
     val isAccessGranted: StateFlow<String?> get() = _isAccessGranted
 

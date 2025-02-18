@@ -49,22 +49,30 @@ dependencies {
   implementation ("androidx.navigation:navigation-ui-ktx:2.3.5")
   implementation("androidx.recyclerview:recyclerview:1.3.1")
   implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
   // Testing Dependencies
   testImplementation("junit:junit:4.13.2")
   androidTestImplementation("androidx.test.ext:junit:1.1.5")
   androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
   testImplementation("androidx.arch.core:core-testing:2.2.0")
   testImplementation("org.mockito:mockito-core:4.+")
+  testImplementation("io.mockk:mockk:1.13.16")
+
   // Dagger Hilt Dependency Injection
   implementation("com.google.dagger:hilt-android:2.50")
   kapt("com.google.dagger:hilt-android-compiler:2.50")
+
   // Moshi JSON Library
   implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+
   // Retrofit for Network Requests
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
   implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
+  implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+  implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+  testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
 }
 kapt {
   correctErrorTypes = true
