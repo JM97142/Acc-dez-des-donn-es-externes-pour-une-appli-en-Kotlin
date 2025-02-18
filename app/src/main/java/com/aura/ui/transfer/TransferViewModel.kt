@@ -11,23 +11,40 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class TransferViewModel : ViewModel() {
-
+    /**
+     * StateFlow to notify if transfer is successful
+     */
     private val _transferResult = MutableStateFlow<Boolean?>(null)
     val transferResult: StateFlow<Boolean?> get() = _transferResult
 
+    /**
+     * StateFlow to update balance
+     */
     private val _updatedBalance = MutableStateFlow<String?>(null)
     val updatedBalance: StateFlow<String?> get() = _updatedBalance
 
+    /**
+     * StateFlow to enable or disable transfer button
+     */
     private val _isButtonEnabled = MutableStateFlow(false)
     val isButtonEnabled: StateFlow<Boolean> get() = _isButtonEnabled
 
+    /**
+     * StateFlow to enable or disable login button
+     */
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
+    /**
+     * Verify form state
+     */
     fun verifyTransferForm(recipient: String, amount: String) {
         _isButtonEnabled.value = recipient.isNotEmpty() && amount.isNotEmpty()
     }
 
+    /**
+     * API Calls
+     */
     fun transfer(currentUser: String, recipient: String, amount: Double) {
         viewModelScope.launch {
             _isLoading.value = true
