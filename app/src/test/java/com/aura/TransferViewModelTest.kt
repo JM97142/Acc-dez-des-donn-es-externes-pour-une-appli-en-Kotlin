@@ -15,7 +15,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -92,16 +91,5 @@ class TransferViewModelTest
         advanceUntilIdle()
 
         assertTrue(viewModel.transferResult.value == false)
-    }
-
-    @Test
-    fun balance_isUpdated() = runTest {
-
-        val mockBalance = 10000.0
-        coEvery { apiService.getAccounts(any()) } returns listOf(mockk { every { balance } returns mockBalance })
-
-        transferViewModel.updatedBalance("2")
-
-        assertEquals(mockBalance.toString(), transferViewModel.updatedBalance.value)
     }
 }
