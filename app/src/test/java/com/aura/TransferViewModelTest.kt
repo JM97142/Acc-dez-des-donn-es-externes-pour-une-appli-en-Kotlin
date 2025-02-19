@@ -1,5 +1,6 @@
 package com.aura
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.aura.data.api.ApiService
 import com.aura.data.api.NetworkModule
 import com.aura.data.model.transfer.TransferModelResponse
@@ -15,14 +16,19 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
 class TransferViewModelTest
 {
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var transferViewModel: TransferViewModel
     private val apiService = mockk<ApiService>()
     private val dispatcher = StandardTestDispatcher()
@@ -30,11 +36,12 @@ class TransferViewModelTest
 
     @Before
     fun setUp() {
-        transferViewModel = TransferViewModel()
 
         Dispatchers.setMain(dispatcher)
         mockkObject(NetworkModule)
         every { NetworkModule.provideRetrofit().create(ApiService::class.java) } returns apiService
+
+        transferViewModel = TransferViewModel()
     }
 
     @After

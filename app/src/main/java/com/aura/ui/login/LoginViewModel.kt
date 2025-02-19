@@ -39,6 +39,7 @@ class LoginViewModel : ViewModel() {
      * API Call
      */
     suspend fun login(identifier: String, password: String) {
+
         _isLoading.value = true
         try {
             val loginRequest = LoginModelRequest(identifier, password)
@@ -48,10 +49,9 @@ class LoginViewModel : ViewModel() {
             }
             _isLoading.value = false
 
-
             // Navigation if successful
             if (result.granted) {
-                _isAccessGranted.value = identifier //
+                _isAccessGranted.value = identifier
             }
             else {
                 throw Exception("$result")

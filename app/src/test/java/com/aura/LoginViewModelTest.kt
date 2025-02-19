@@ -1,5 +1,6 @@
 package com.aura
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.aura.data.api.ApiService
 import com.aura.data.api.NetworkModule
 import com.aura.ui.login.LoginViewModel
@@ -13,6 +14,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -26,6 +28,8 @@ import kotlin.math.log
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class LoginViewModelTest {
+  @get:Rule
+  val instantTaskExecutorRule = InstantTaskExecutorRule()
 
   private lateinit var loginViewModel: LoginViewModel
   private val apiService = mockk<ApiService>()
@@ -33,10 +37,10 @@ class LoginViewModelTest {
 
   @Before
   fun setUp() {
-    loginViewModel = LoginViewModel()
+    mockkObject(NetworkModule)
+    every { NetworkModule.provideRetrofit().create(ApiService::class.java) } returns apiService
 
-    mockkObject(networkModule)
-    every { networkModule.provideRetrofit().create(ApiService::class.java) } returns apiService
+    loginViewModel = LoginViewModel()
   }
 
   @Test
